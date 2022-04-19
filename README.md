@@ -1,0 +1,3 @@
+# cowcat
+
+fortune + cowsay + lolcat
