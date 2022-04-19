@@ -17,8 +17,8 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir deb
-          cd deb
+          mkdir fcow_1.0-1
+          cd fcow_1.0-1
           mkdir CONTROL
           mkdir usr
           cd usr
@@ -28,5 +28,9 @@ jobs:
           
       - name: Copy stuff inside
         run: |
-          cp deb_control deb/CONTROL/
-          cp fcow deb/usr/local/bin/
+          cp deb_control fcow_1.0-1/CONTROL/
+          cp fcow fcow_1.0-1/usr/local/bin/
+
+      - name: Create deb package
+        run: dpkg-deb --build fcow_1.0-1
+        
