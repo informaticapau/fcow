@@ -26,6 +26,8 @@ jobs:
           cd local
           mkdir bin
           mkdir share
+          cd share
+          mkdir fcow
           
       - name: Copy stuff inside
         run: |
