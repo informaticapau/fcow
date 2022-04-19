@@ -1,6 +1,6 @@
 Package: fcow
 Version: 1.0-1
-Architecture: amd64
+Architecture: all
 Maintainer: Angel Ruiz Fernandez <aruizfernandez05@gmail.com>
 Installed-Size: 1024
 Depends: fortune cowsay lolcat
