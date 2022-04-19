@@ -37,5 +37,5 @@ jobs:
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
-          path: fcow_1.0-1
+          name: fcow_1.0-1.deb
+          path: fcow_1.0-1.deb
