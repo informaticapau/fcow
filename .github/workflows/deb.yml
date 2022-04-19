@@ -20,7 +20,6 @@ jobs:
           mkdir deb
           cd deb
           mkdir CONTROL
-          cd ..
           mkdir usr
           cd usr
           mkdir local
