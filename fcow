@@ -1,4 +1,0 @@
-#!/bin/bash
-cdir=$(cowsay -l | grep "Cow files in " | awk 'match($0,/\/.*\/[^ ]*/){print substr($0,RSTART,RLENGTH-1)}')
-rcow=$(ls $cdir/*.cow |shuf -n 1)
-fortune |cowsay -f $rcow |lolcat

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION=0.0.1
+
+BASE=$(dirname $0)
+
+### "Pre-program"
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+	cat $BASE/HELP | lolcat
+	exit
+elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
+	echo $VERSION | lolcat
+	exit
+fi;
+
+### Actual program
+
+cowfile="default"
+
+COWS=$(cowsay -l | grep "Cow files in " | awk 'match($0,/\/.*\/[^ ]*/){print substr($0,RSTART,RLENGTH-1)}')
+
+while [[ "$#" -gt 0 ]]; do
+	case $1 in
+		-r|--random)	cowfile=$(ls $COWS/*.cow |shuf -n 1); shift ;;
+	esac
+	shift
+done;
+
+
+### GO!
+fortune -a |cowsay -f $cowfile |lolcat
