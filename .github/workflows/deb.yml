@@ -34,3 +34,8 @@ jobs:
       - name: Create deb package
         run: dpkg-deb --build fcow_1.0-1
         
+      - name: Upload deb as artifact
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: path/to/artifact/world.txt
