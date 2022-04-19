@@ -17,16 +17,22 @@ fi;
 ### Actual program
 
 cowfile="default"
+sot="say"
+bdgpstwy=""
 
 COWS=$(cowsay -l | grep "Cow files in " | awk 'match($0,/\/.*\/[^ ]*/){print substr($0,RSTART,RLENGTH-1)}')
 
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
-		-r|--random)	cowfile=$(ls $COWS/*.cow |shuf -n 1); shift ;;
+		-r|--random)
+			cowfile=$(ls $COWS/*.cow |shuf -n 1)
+			sot=$(echo -ne "say\nthink"| shuf -n 1)
+			bdgpstwy="-bdgpstwy"
+		shift ;;
 	esac
 	shift
 done;
 
 
 ### GO!
-fortune -a |cowsay -f $cowfile |lolcat
+fortune -a |cow$sot -f $cowfile $bdgpstwy |lolcat
