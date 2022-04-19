@@ -26,3 +26,8 @@ jobs:
           mkdir local
           cd local
           mkdir bin
+          
+      - name: Copy stuff inside
+        run: |
+          cp deb_control deb/CONTROL/
+          cp fcow deb/usr/local/bin/
