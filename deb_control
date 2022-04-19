@@ -1,0 +1,10 @@
+Package: fcow
+Version: 1.0-1
+Architecture: all
+Maintainer: Angel Ruiz Fernandez <aruizfernandez05@gmail.com>
+Installed-Size: 1024
+Depends: fortune, cowsay, lolcat
+Section: devel
+Priority: optional
+Homepage: https://github.com/informaticapau/cowcat
+Description: A full colored cow will advice your future

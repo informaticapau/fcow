@@ -1,0 +1,41 @@
+name: Create debian package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create package structure
+        run: |
+          mkdir fcow_1.0-1
+          cd fcow_1.0-1
+          mkdir DEBIAN
+          mkdir usr
+          cd usr
+          mkdir local
+          cd local
+          mkdir bin
+          
+      - name: Copy stuff inside
+        run: |
+          cp deb_control fcow_1.0-1/DEBIAN/control
+          cp fcow fcow_1.0-1/usr/local/bin/
+
+      - name: Create deb package
+        run: dpkg-deb --build fcow_1.0-1
+        
+      - name: Upload deb as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: fcow_1.0-1.deb
+          path: fcow_1.0-1.deb
