@@ -33,6 +33,7 @@ jobs:
         run: |
           cp deb_control fcow_1.0-1/DEBIAN/control
           cp src/* fcow_1.0-1/usr/local/bin/
+          chmod +x fcow_1.0-1/usr/local/bin/*
           cp share/* fcow_1.0-1/usr/local/share/fcow/
 
       - name: Create deb package
