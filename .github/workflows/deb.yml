@@ -28,7 +28,7 @@ jobs:
           
       - name: Copy stuff inside
         run: |
-          cp deb_control fcow_1.0-1/CONTROL/
+          cp deb_control fcow_1.0-1/CONTROL/control
           cp fcow fcow_1.0-1/usr/local/bin/
 
       - name: Create deb package
