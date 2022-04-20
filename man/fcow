@@ -1,0 +1,26 @@
+.\" Manpage for fcow.
+.\" Contact aruizfernandez05@gmail.com to correct errors or typos.
+.TH fcow 6 "20 Apr 2022" "1.0" "fcow man page"
+.SH NAME
+fcow \- A full colored cow will advice your future
+.SH SYNOPSIS
+fcow [options]
+.SH DESCRIPTION
+fcow is high level shell program for pulling your future from fortune(6), pipes it through cowsay(6) and again through lolcat(6). When called with no options, displays a colorful cow saying a random fortune message.
+.SH OPTIONS
+fcow does take a few options.
+.TP
+.BR \-h ", " \-\^\-help
+Output a usage essage and exit.
+.TP
+.BR \-v ", " \-\^\-version
+Output version and exit.
+.TP
+.BR \-r ", " \-\^\-random
+Chooses a random cow, displays a colorful fortune message and exists.
+.SH SEE ALSO
+fortune(6), cowsay(6), lolcat(6)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Angel Ruiz Fernandez (aruizfernandez05@gmail.com)
