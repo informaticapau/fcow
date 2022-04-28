@@ -28,12 +28,16 @@ jobs:
           mkdir share
           cd share
           mkdir fcow
+          cd ..
+          mkdir man
           
       - name: Copy stuff inside
         run: |
           cp deb_control fcow_1.0-1/DEBIAN/control
           cp src/* fcow_1.0-1/usr/local/bin/
+          chmod +x fcow_1.0-1/usr/local/bin/*
           cp share/* fcow_1.0-1/usr/local/share/fcow/
+          cp man/* fcow_1.0-1/usr/local/man/
 
       - name: Create deb package
         run: dpkg-deb --build fcow_1.0-1
