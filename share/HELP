@@ -1,8 +1,20 @@
-cowcat
-cowcat -h|--help
-cowcat -v|--version
-cowcat -r|--random
 
-Ayuda?
-Ayudado
-de nada
+Usage: fcow [options]
+
+By default prints a colored cow with a random fortune message.
+
+Options:
+  -r|--random        Makes the cow RANDOM
+
+Examples:
+  fcow
+  fcow -h|--help
+  fcow -v|--version
+  fcow -r|--random
+
+
+You may like execute:
+`echo "alias 'clear=clear && fcow -r'" >> ~/.bash_aliases`
+
+You can edit permanent aliases in "~/.bash_aliases"
+
