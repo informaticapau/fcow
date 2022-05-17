@@ -37,7 +37,7 @@ jobs:
           cp src/* fcow_1.0-1/usr/local/bin/
           chmod +x fcow_1.0-1/usr/local/bin/*
           cp share/* fcow_1.0-1/usr/local/share/fcow/
-          cp man/* fcow_1.0-1/usr/local/man/
+          cp man/* fcow_1.0-1/usr/local/man/man1/
 
       - name: Create deb package
         run: dpkg-deb --build fcow_1.0-1
