@@ -30,6 +30,8 @@ jobs:
           mkdir fcow
           cd ..
           mkdir man
+          cd man
+          mkdir man6
           
       - name: Copy stuff inside
         run: |
@@ -37,7 +39,7 @@ jobs:
           cp src/* fcow_1.0-1/usr/local/bin/
           chmod +x fcow_1.0-1/usr/local/bin/*
           cp share/* fcow_1.0-1/usr/local/share/fcow/
-          cp man/* fcow_1.0-1/usr/local/man/man1/
+          cp man/* fcow_1.0-1/usr/local/man/man6/
 
       - name: Create deb package
         run: dpkg-deb --build fcow_1.0-1
