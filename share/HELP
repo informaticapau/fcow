@@ -14,7 +14,7 @@ Examples:
 
 
 You may like execute:
-`echo "alias 'clear=clear && fcow -r'" >> ~/.bash_aliases`
+`echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`
 
 You can edit permanent aliases in "~/.bash_aliases"
 
