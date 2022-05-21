@@ -3,7 +3,7 @@ Version 1.0
 
 ## Install
 Two ways
-1. Adding to `sources.list`:
+1. Adding to `sources.list` (Allows automatic updates):
 ```
 # TODO
 ```
