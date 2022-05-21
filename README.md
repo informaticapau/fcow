@@ -2,13 +2,7 @@
 Version 1.0
 
 ## Install
-Two ways
-1. Adding to `sources.list` (Allows automatic updates):
-```
-# TODO
-```
-
-2. Download debian package from the latest Github Actions workflow run artifact, and install with:
+Download debian package from the latest Github Actions workflow run artifact, unzip it, and install with:
 ```sh
 sudo apt install ./fcow_1.0-1.deb
 ```
