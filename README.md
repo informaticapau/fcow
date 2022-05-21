@@ -1,11 +1,35 @@
 # fcow - command
-Version 1.0
+`Version 1.0`
+
+A full colored cow will advice your future
 
 ## Install
-Download debian package from the latest Github Actions workflow run artifact, unzip it, and install with:
+Download debian package from the latest [Release](https://github.com/informaticapau/fcow/releases), and install with:
 ```sh
 sudo apt install ./fcow_1.0-1.deb
 ```
+
+## Build
+Two ways:
+
+1. Making copies:
+```sh
+mkdir /usr/local/share/fcow
+cp src/fcow /usr/local/bin/fcow
+cp share/HELP /usr/local/share/fcow/HELP
+mkdir /usr/local/man/man6/
+cp man/fcow.6 /usr/local/man/man6/fcow.6
+```
+
+2. Making symlinks:
+```sh
+ln -srf src/fcow /usr/local/bin/fcow
+mkdir /usr/local/share/fcow
+ln -srf share /usr/local/share/fcow
+mkdir /usr/local/man/man6/
+ln -srf man/fcow.6 /usr/local/man/man6/fcow.6
+```
+
 
 ## HELP
 ```
@@ -28,25 +52,4 @@ You may like execute:
 
 You can edit permanent aliases in "~/.bash_aliases"
 
-```
-
-## Build
-Two ways:
-
-1. Making copies:
-```sh
-mkdir /usr/local/share/fcow
-cp src/fcow /usr/local/bin/fcow
-cp share/HELP /usr/local/share/fcow/HELP
-mkdir /usr/local/man/man6/
-cp man/fcow.6 /usr/local/man/man6/fcow.6
-```
-
-2. Making symlinks:
-```sh
-ln -srf src/fcow /usr/local/bin/fcow
-mkdir /usr/local/share/fcow
-ln -srf share /usr/local/share/fcow
-mkdir /usr/local/man/man6/
-ln -srf man/fcow.6 /usr/local/man/man6/fcow.6
 ```
