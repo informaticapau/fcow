@@ -38,12 +38,15 @@ Two ways:
 mkdir /usr/local/share/fcow
 cp src/fcow /usr/local/bin/fcow
 cp share/HELP /usr/local/share/fcow/HELP
-# TODO: MAN
+mkdir /usr/local/man/man6/
+cp man/fcow.6 /usr/local/man/man6/fcow.6
 ```
 
 2. Making symlinks:
 ```sh
 ln -srf src/fcow /usr/local/bin/fcow
+mkdir /usr/local/share/fcow
 ln -srf share /usr/local/share/fcow
-# TODO: MAN
+mkdir /usr/local/man/man6/
+ln -srf man/fcow.6 /usr/local/man/man6/fcow.6
 ```
