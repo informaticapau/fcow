@@ -5,13 +5,19 @@ By default prints a colored cow with a random fortune message.
 
 Options:
   -r|--random        Makes the cow RANDOM
+  -l|--log           List the log entries
+  -i|--index         Select and display a specific entry
+  --clear-log        Flush the log file
+
 
 Examples:
   fcow
   fcow -h|--help
   fcow -v|--version
   fcow -r|--random
-
+  fcow -l|--log
+  fcow -i|--index 12
+  fcow --clear-log
 
 You may like execute:
 `echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`
