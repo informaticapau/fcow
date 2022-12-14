@@ -5,9 +5,10 @@ By default prints a colored cow with a random fortune message.
 
 Options:
   -r|--random        Makes the cow RANDOM
-  -l|--log           List the log entries
-  -i|--index         Select and display a specific entry
-  --clear-log        Flush the log file
+  -s|--save          Save the last fcow
+  -l|--list          List all the saved fcows
+  -e|--entry         Select and display an specific entry
+  -d|--delentry      Delete an specific entry
 
 
 Examples:
@@ -15,12 +16,12 @@ Examples:
   fcow -h|--help
   fcow -v|--version
   fcow -r|--random
-  fcow -l|--log
-  fcow -i|--index 12
-  fcow --clear-log
+  fcow -s|--save pepefrog
+  fcow -l|--list
+  fcow -e|--entry pepefrog
+  fcow -d|--delentry pepefrog
 
 You may like execute:
 `echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`
 
 You can edit permanent aliases in "~/.bash_aliases"
-

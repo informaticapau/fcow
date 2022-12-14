@@ -7,11 +7,13 @@
 # @author Angel Ruiz Fernandez
 #
 # @version 1.1
-# @since May 2022
+# @since Dec 2022
 
 
 VERSION=1.1
-LOG="/usr/local/share/fcow/LOG"
+SHARED="/usr/local/share/fcow"
+LAST="$SHARED/LAST"
+SAVED="$SHARED/saved"
 
 ### "Pre-program"
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -20,24 +22,73 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
 	echo $VERSION |lolcat
 	exit
-elif [[ "$1" == "-l" || "$1" == "--log" ]]; then
-	echo 'fcow log file in '$LOG':' |lolcat
-	cat /usr/local/share/fcow/LOG |grep --color -n .
+elif [[ "$1" == "-s" || "$1" == "--save" ]]; then
+	if [[ -f "$LAST" ]]; then
+		if [[ -z "$2" ]]; then
+			read -p "Entry Title: " cname
+
+			if [[ -z "$cname" ]]; then
+				echo "Empty title. Try again" |lolcat
+				exit 1
+			fi;
+		else
+			cname=$2
+		fi;
+
+		gzip -fnq9 "$LAST"
+		mv "$LAST.gz" "$SAVED/$cname"
+
+		echo "Saved last fcow as index '$cname'" |lolcat
+	else
+		echo "There is no last fcow" |lolcat
+		exit 1
+	fi
+
 	exit
-elif [[  "$1" == "--clear-log" ]]; then
-	echo -n >/usr/local/share/fcow/LOG
-	echo "Ok!" |lolcat
+elif [[ "$1" == "-l" || "$1" == "--list" ]]; then
+	echo "Saved fcow files in '$SAVED':" |lolcat
+	ls -t "$SAVED"
 	exit
-elif [[ "$1" == "-i" || "$1" == "--index" ]]; then
-	raw=$(sed -n "$2,$2p" $LOG)
-	if [[ -z $raw ]]; then
-		echo "No index found" |lolcat
-		exit
+elif [[ "$1" == "-e" || "$1" == "--entry" ]]; then
+	if [[ -z "$2" ]]; then
+		read -p "Entry Title: " cname
+
+		if [[ -z "$cname" ]]; then
+			echo "Empty title. Try again" |lolcat
+			exit 1
+		fi;
+	else
+		cname=$2
 	fi;
 
-	raw=$(echo "$raw" |base64 -d |gunzip)
-	readarray -d : -t iarr <<< "$raw"
-	echo "${iarr[0]}" |cow${iarr[2]} -f ${iarr[1]} ${bdgpstwy[3]} |lolcat
+	if [[ -f "$SAVED/$cname" ]]; then
+		gzip -dc "$SAVED/$cname" |lolcat
+	else
+		echo "No entry for '$cname'" |lolcat
+		exit 1
+	fi;
+
+	exit
+elif [[ "$1" == "-d" || "$1" == "--delentry" ]]; then
+	if [[ -z "$2" ]]; then
+		read -p "Entry Title: " cname
+
+		if [[ -z "$cname" ]]; then
+			echo "Empty title. Try again" |lolcat
+			exit 1
+		fi;
+	else
+		cname=$2
+	fi;
+
+	if [[ -f "$SAVED/$cname" ]]; then
+		rm "$SAVED/$cname"
+		echo "Deleted '$cname'" |lolcat
+	else
+		echo "No entry for '$cname'" |lolcat
+		exit 1
+	fi;
+
 	exit
 fi;
 
@@ -59,7 +110,6 @@ while [[ "$#" -gt 0 ]]; do
 			cowfile=$(ls $COWS/*.cow |shuf -n 1)
 			cowfile=$(basename $cowfile)
 			sot=$(echo -ne "say\nthink" |shuf -n 1)
-			#bdgpstwy="-bdgpstwy"
 		shift;;
 
 		# Future options
@@ -68,10 +118,7 @@ while [[ "$#" -gt 0 ]]; do
 done;
 
 
-### GO!
+### GO! (keep last for save)
 OUTPUT=$(fortune -ea)
-echo "$OUTPUT" |cow$sot -f $cowfile $bdgpstwy |lolcat
-
-### Save to LOG
-OUT64=$(echo -n "$OUTPUT:$cowfile:$sot:$bdgpstwy" |gzip -cf |base64 -w0)
-echo "$OUT64" >> $LOG
+echo "$OUTPUT" |cow$sot -f $cowfile $bdgpstwy > $LAST
+cat $LAST |lolcat
