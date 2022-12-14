@@ -1,12 +1,12 @@
 # fcow - command
-`Version 1.0`
+`Version 1.1`
 
 A full colored cow will advice your future
 
 ## Install
 Download debian package from the latest [Release](https://github.com/informaticapau/fcow/releases), and install with:
 ```sh
-sudo apt install ./fcow_1.0-1.deb
+sudo apt install ./fcow_1.1-1.deb
 ```
 
 ## Build
@@ -39,13 +39,21 @@ By default prints a colored cow with a random fortune message.
 
 Options:
   -r|--random        Makes the cow RANDOM
+  -s|--save          Save the last fcow
+  -l|--list          List all the saved fcows
+  -e|--entry         Select and display an specific entry
+  -d|--delentry      Delete an specific entry
+
 
 Examples:
   fcow
   fcow -h|--help
   fcow -v|--version
   fcow -r|--random
-
+  fcow -s|--save pepefrog
+  fcow -l|--list
+  fcow -e|--entry pepefrog
+  fcow -d|--delentry pepefrog
 
 You may like execute:
 `echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`
