@@ -9,17 +9,23 @@ Options:
   -l|--list          List all the saved fcows
   -e|--entry         Select and display an specific entry
   -d|--delentry      Delete an specific entry
+  -t|--trans         Specify a language to translate
 
 
 Examples:
-  fcow
-  fcow -h|--help
-  fcow -v|--version
-  fcow -r|--random
-  fcow -s|--save pepefrog
-  fcow -l|--list
-  fcow -e|--entry pepefrog
-  fcow -d|--delentry pepefrog
+- Display a random fcow
+  $ fcow -r
+- Display a random fcow in portuguese
+  $ fcow -r -t pt
+- Save the last fcow as 'pepe'
+  $ fcow -s pepe
+- Display all saved fcows
+  $ fcow -l
+- Get and display the saved fcow named 'pepe'
+  $ fcow -e pepe
+- Remove fcow named 'pepe'
+  $ fcow -d pepe
+
 
 You may like execute:
 `echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`

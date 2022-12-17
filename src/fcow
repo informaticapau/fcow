@@ -99,6 +99,7 @@ fi;
 cowfile="default"
 sot="say"
 bdgpstwy=""
+transLang=""
 
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
@@ -110,7 +111,34 @@ while [[ "$#" -gt 0 ]]; do
 			cowfile=$(ls $COWS/*.cow |shuf -n 1)
 			cowfile=$(basename $cowfile)
 			sot=$(echo -ne "say\nthink" |shuf -n 1)
-		shift;;
+			;;
+
+		-t|--trans)
+			# Translate to $2 lang
+
+			# Check if trans exists
+			trans --version &>/dev/null
+			if [[ $? != 0 ]]; then
+				echo -e "Translation wrapper requires 'trans' command.\n$ wget git.io/trans" |lolcat
+				echo "Website: www.soimort.org/translate-shell" |lolcat
+				exit 1
+			fi;
+
+			if [[ -z "$2" ]]; then
+				echo "No language specified" |lolcat
+				exit 1
+			fi;
+
+			if [[ -z $(trans -list-codes |grep "$2") ]]; then
+				echo "Unsupported lang '$2'. Check 'trans -list-all'" |lolcat
+				exit 1
+			fi;
+
+			transLang="$2"
+
+			shift
+			shift
+			;;
 
 		# Future options
 	esac
@@ -120,5 +148,9 @@ done;
 
 ### GO! (keep last for save)
 OUTPUT=$(fortune -ea)
+if [[ -n "$transLang" ]]; then
+	OUTPUT=$(echo $OUTPUT |trans -b en:$transLang)
+fi;
+
 echo "$OUTPUT" |cow$sot -f $cowfile $bdgpstwy > $LAST
 cat $LAST |lolcat
