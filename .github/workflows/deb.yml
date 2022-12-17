@@ -1,10 +1,7 @@
 name: Create debian package
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  [push, pull_request]
 
   workflow_dispatch:
 
@@ -17,8 +14,8 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir fcow_1.0-1
-          cd fcow_1.0-1
+          mkdir fcow_1.1-1
+          cd fcow_1.1-1
           mkdir DEBIAN
           mkdir usr
           cd usr
@@ -35,17 +32,17 @@ jobs:
           
       - name: Copy stuff inside
         run: |
-          cp deb_control fcow_1.0-1/DEBIAN/control
-          cp src/* fcow_1.0-1/usr/local/bin/
-          chmod +x fcow_1.0-1/usr/local/bin/*
-          cp share/* fcow_1.0-1/usr/local/share/fcow/
-          cp man/* fcow_1.0-1/usr/local/man/man6/
+          cp deb_control fcow_1.1-1/DEBIAN/control
+          cp src/* fcow_1.1-1/usr/local/bin/
+          chmod +x fcow_1.1-1/usr/local/bin/*
+          cp share/* fcow_1.1-1/usr/local/share/fcow/
+          cp man/* fcow_1.1-1/usr/local/man/man6/
 
       - name: Create deb package
-        run: dpkg-deb --build fcow_1.0-1
+        run: dpkg-deb --build fcow_1.1-1
         
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: fcow_1.0-1.deb
-          path: fcow_1.0-1.deb
+          name: fcow_1.1-1.deb
+          path: fcow_1.1-1.deb
