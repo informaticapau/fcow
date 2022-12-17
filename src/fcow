@@ -6,12 +6,14 @@
 # @author Bruno Castro Garcia
 # @author Angel Ruiz Fernandez
 #
-# @version 1.0
-# @since April 2022
+# @version 1.1
+# @since Dec 2022
 
 
-VERSION=1.0
-
+VERSION=1.1
+SHARED="/usr/local/share/fcow"
+LAST="$SHARED/LAST"
+SAVED="$SHARED/saved"
 
 ### "Pre-program"
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -19,6 +21,74 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 	exit
 elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
 	echo $VERSION |lolcat
+	exit
+elif [[ "$1" == "-s" || "$1" == "--save" ]]; then
+	if [[ -f "$LAST" ]]; then
+		if [[ -z "$2" ]]; then
+			read -p "Entry Title: " cname
+
+			if [[ -z "$cname" ]]; then
+				echo "Empty title. Try again" |lolcat
+				exit 1
+			fi;
+		else
+			cname=$2
+		fi;
+
+		gzip -fnq9 "$LAST"
+		mv "$LAST.gz" "$SAVED/$cname"
+
+		echo "Saved last fcow as index '$cname'" |lolcat
+	else
+		echo "There is no last fcow" |lolcat
+		exit 1
+	fi
+
+	exit
+elif [[ "$1" == "-l" || "$1" == "--list" ]]; then
+	echo "Saved fcow files in '$SAVED':" |lolcat
+	ls -t "$SAVED"
+	exit
+elif [[ "$1" == "-e" || "$1" == "--entry" ]]; then
+	if [[ -z "$2" ]]; then
+		read -p "Entry Title: " cname
+
+		if [[ -z "$cname" ]]; then
+			echo "Empty title. Try again" |lolcat
+			exit 1
+		fi;
+	else
+		cname=$2
+	fi;
+
+	if [[ -f "$SAVED/$cname" ]]; then
+		gzip -dc "$SAVED/$cname" |lolcat
+	else
+		echo "No entry for '$cname'" |lolcat
+		exit 1
+	fi;
+
+	exit
+elif [[ "$1" == "-d" || "$1" == "--delentry" ]]; then
+	if [[ -z "$2" ]]; then
+		read -p "Entry Title: " cname
+
+		if [[ -z "$cname" ]]; then
+			echo "Empty title. Try again" |lolcat
+			exit 1
+		fi;
+	else
+		cname=$2
+	fi;
+
+	if [[ -f "$SAVED/$cname" ]]; then
+		rm "$SAVED/$cname"
+		echo "Deleted '$cname'" |lolcat
+	else
+		echo "No entry for '$cname'" |lolcat
+		exit 1
+	fi;
+
 	exit
 fi;
 
@@ -29,6 +99,7 @@ fi;
 cowfile="default"
 sot="say"
 bdgpstwy=""
+transLang=""
 
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
@@ -38,9 +109,36 @@ while [[ "$#" -gt 0 ]]; do
 
 			# Override defaults to RANDOM stuff
 			cowfile=$(ls $COWS/*.cow |shuf -n 1)
+			cowfile=$(basename $cowfile)
 			sot=$(echo -ne "say\nthink" |shuf -n 1)
-			bdgpstwy="-bdgpstwy"
-		shift;;
+			;;
+
+		-t|--trans)
+			# Translate to $2 lang
+
+			# Check if trans exists
+			trans --version &>/dev/null
+			if [[ $? != 0 ]]; then
+				echo -e "Translation wrapper requires 'trans' command.\n$ wget git.io/trans" |lolcat
+				echo "Website: www.soimort.org/translate-shell" |lolcat
+				exit 1
+			fi;
+
+			if [[ -z "$2" ]]; then
+				echo "No language specified" |lolcat
+				exit 1
+			fi;
+
+			if [[ -z $(trans -list-codes |grep "$2") ]]; then
+				echo "Unsupported lang '$2'. Check 'trans -list-all'" |lolcat
+				exit 1
+			fi;
+
+			transLang="$2"
+
+			shift
+			shift
+			;;
 
 		# Future options
 	esac
@@ -48,5 +146,11 @@ while [[ "$#" -gt 0 ]]; do
 done;
 
 
-### GO!
-fortune -a |cow$sot -f $cowfile $bdgpstwy |lolcat
+### GO! (keep last for save)
+OUTPUT=$(fortune -ea)
+if [[ -n "$transLang" ]]; then
+	OUTPUT=$(echo $OUTPUT |trans -b en:$transLang)
+fi;
+
+echo "$OUTPUT" |cow$sot -f $cowfile $bdgpstwy > $LAST
+cat $LAST |lolcat
