@@ -24,7 +24,7 @@ jobs:
           cp man/* fcow_1.2-1/usr/local/man/man6/
 
       - name: Create deb package
-        run: dpkg-deb --build fcow_1.2-1
+        run: dpkg-deb -Zxz --build fcow_1.2-1
 
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
