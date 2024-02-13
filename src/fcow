@@ -6,18 +6,22 @@
 # @author Bruno Castro Garcia
 # @author Angel Ruiz Fernandez
 #
-# @version 1.1
-# @since Dec 2022
+# @version 1.2
+# @since Feb 2024
 
 
-VERSION=1.1
+VERSION=1.2
 SHARED="/usr/local/share/fcow"
-LAST="$SHARED/LAST"
-SAVED="$SHARED/saved"
+USRDATA="$HOME/.cache/fcow"
+LAST="$USRDATA/LAST"
+SAVED="$USRDATA/saved"
+
+# Create $USRDATA and $SAVED if they do not exists ($SAVED includes $USRDATA)
+if [[ ! -f $SAVED ]]; then mkdir -p $SAVED; fi
 
 ### "Pre-program"
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-	cat "/usr/local/share/fcow/HELP" |lolcat
+	cat "$SHARED/HELP" |lolcat
 	exit
 elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
 	echo $VERSION |lolcat
