@@ -1,12 +1,12 @@
 # fcow - command
-`Version 1.1`
+`Version 1.2`
 
 A full colored cow will advice your future
 
 ## Install
 Download debian package from the latest [Release](https://github.com/informaticapau/fcow/releases), and install with:
 ```sh
-sudo apt install ./fcow_1.1-1.deb
+sudo apt install ./fcow_1.2-1.deb
 ```
 
 ## Build
@@ -23,11 +23,11 @@ cp man/fcow.6 /usr/local/man/man6/fcow.6
 
 2. Making symlinks:
 ```sh
-ln -srf src/fcow /usr/local/bin/fcow
+ln -srvf src/fcow /usr/local/bin/fcow
 mkdir /usr/local/share/fcow
-ln -srf share /usr/local/share/fcow
+ln -srvf share /usr/local/share/fcow
 mkdir /usr/local/man/man6/
-ln -srf man/fcow.6 /usr/local/man/man6/fcow.6
+ln -srvf man/fcow.6 /usr/local/man/man6/fcow.6
 ```
 
 
@@ -65,5 +65,4 @@ You may like execute:
 `echo "alias clear='clear && fcow -r'" >> ~/.bash_aliases`
 
 You can edit permanent aliases in "~/.bash_aliases"
-
 ```
