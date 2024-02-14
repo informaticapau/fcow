@@ -2,6 +2,10 @@ name: Create debian package
 
 on: [push, pull_request]
 
+env:
+  pkg_version: 1.2-${{github.run_number}}
+  pkg_name: fcow_1.2-${{github.run_number}}_all
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,23 +15,44 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir fcow_1.2-1
-          cd fcow_1.2-1
-          mkdir -p DEBIAN usr/local/bin usr/local/man/man6 usr/local/share/fcow
+          mkdir ${{env.pkg_name}}
+          cd ${{env.pkg_name}}
+          mkdir -p DEBIAN usr/local/games usr/local/man/man6 usr/local/share/fcow
+
+      - name: Write control
+        run: |
+          cat <<EOT >> deb_control 
+          Package: fcow
+          Version: ${{env.pkg_version}}
+          Architecture: all
+          Maintainer: Angel Ruiz Fernandez <aruizfernandez05@gmail.com>
+          Installed-Size: 5000
+          Depends: fortune, cowsay, lolcat
+          Section: game
+          Priority: optional
+          Homepage: https://github.com/informaticapau/fcow
+          Description: A full colored cow will advice your future
+          EOT
 
       - name: Copy stuff inside
         run: |
-          cp deb_control fcow_1.2-1/DEBIAN/control
-          cp src/* fcow_1.2-1/usr/local/bin/
-          chmod +x fcow_1.2-1/usr/local/bin/*
-          cp share/* fcow_1.2-1/usr/local/share/fcow/
-          cp man/* fcow_1.2-1/usr/local/man/man6/
+          cp deb_control ${{env.pkg_name}}/DEBIAN/control
+          cp src/* ${{env.pkg_name}}/usr/local/games/
+          chmod +x ${{env.pkg_name}}/usr/local/games/*
+          cp share/* ${{env.pkg_name}}/usr/local/share/fcow/
+          cp man/* ${{env.pkg_name}}/usr/local/man/man6/
 
       - name: Create deb package
-        run: dpkg-deb -Zxz --build fcow_1.2-1
+        run: dpkg-deb -Zxz --build ${{env.pkg_name}}
 
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: fcow_1.2-1.deb
-          path: fcow_1.2-1.deb
+          name: ${{env.pkg_name}}.deb
+          path: ${{env.pkg_name}}.deb
+
+      - name: Install rsync
+        run: sudo apt-get install rsync
+
+      - name: Upload deb to repo
+        run: RSYNC_PASSWORD=${{secrets.RSYNC_REPO_PASS}} rsync -avz ${{env.pkg_name}}.deb rsync://debupload@arf20.com/debupload/pool/contrib/
