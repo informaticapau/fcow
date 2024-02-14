@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${pkg_name}.deb
-          path: fcow_1.2-1.deb
+          path: ${pkg_name}.deb
