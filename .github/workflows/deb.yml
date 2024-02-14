@@ -35,12 +35,8 @@ jobs:
           name: ${{env.pkg_name}}.deb
           path: ${{env.pkg_name}}.deb
 
+      - name: Install rsync
+        run: apt install rsync
+
       - name: Upload deb to repo
-        uses: burnett01/rsync-deployments@6.0.0
-        with:
-          switches: -avzr --delete
-          path: .
-          remote_path: /debupload/pool/contrib/
-          remote_host: arf20.com
-          remote_user: debupload
-          remote_key: ${{secrets.RSYNC_REPO_PASS}}
+        run: RSYNC_PASSWORD=${{secrets.RSYNC_REPO_PASS}} rsync -avz ${{env.pkg_name}}.deb rsync://debupload@arf20.com/debupload/pool/contrib/
