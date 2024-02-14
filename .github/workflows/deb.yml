@@ -36,7 +36,7 @@ jobs:
           path: ${{env.pkg_name}}.deb
 
       - name: Install rsync
-        run: apt install rsync
+        run: sudo apt-get install rsync
 
       - name: Upload deb to repo
         run: RSYNC_PASSWORD=${{secrets.RSYNC_REPO_PASS}} rsync -avz ${{env.pkg_name}}.deb rsync://debupload@arf20.com/debupload/pool/contrib/
