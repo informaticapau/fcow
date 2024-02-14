@@ -2,6 +2,9 @@ name: Create debian package
 
 on: [push, pull_request]
 
+env:
+  pkg_name: fcow_1.2-${GITHUB_RUN_NUMBER}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,23 +14,23 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir fcow_1.2-1
-          cd fcow_1.2-1
+          mkdir ${pkg_name}
+          cd ${pkg_name}
           mkdir -p DEBIAN usr/local/bin usr/local/man/man6 usr/local/share/fcow
 
       - name: Copy stuff inside
         run: |
-          cp deb_control fcow_1.2-1/DEBIAN/control
-          cp src/* fcow_1.2-1/usr/local/bin/
-          chmod +x fcow_1.2-1/usr/local/bin/*
-          cp share/* fcow_1.2-1/usr/local/share/fcow/
-          cp man/* fcow_1.2-1/usr/local/man/man6/
+          cp deb_control ${pkg_name}/DEBIAN/control
+          cp src/* ${pkg_name}/usr/local/bin/
+          chmod +x ${pkg_name}/usr/local/bin/*
+          cp share/* ${pkg_name}/usr/local/share/fcow/
+          cp man/* ${pkg_name}/usr/local/man/man6/
 
       - name: Create deb package
-        run: dpkg-deb -Zxz --build fcow_1.2-1
+        run: dpkg-deb -Zxz --build ${pkg_name}
 
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: fcow_1.2-1.deb
+          name: ${pkg_name}.deb
           path: fcow_1.2-1.deb
