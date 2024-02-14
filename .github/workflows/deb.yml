@@ -17,7 +17,7 @@ jobs:
         run: |
           mkdir ${{env.pkg_name}}
           cd ${{env.pkg_name}}
-          mkdir -p DEBIAN usr/local/bin usr/local/man/man6 usr/local/share/fcow
+          mkdir -p DEBIAN usr/local/games usr/local/man/man6 usr/local/share/fcow
 
       - name: Write control
         run: |
