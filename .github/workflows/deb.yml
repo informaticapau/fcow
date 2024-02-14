@@ -3,7 +3,7 @@ name: Create debian package
 on: [push, pull_request]
 
 env:
-  pkg_name: fcow_1.2-${{GITHUB_RUN_NUMBER}}
+  pkg_name: fcow_1.2-${{ github.run_number }}
 
 jobs:
   build:
