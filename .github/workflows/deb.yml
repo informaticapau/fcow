@@ -3,7 +3,7 @@ name: Create debian package
 on: [push, pull_request]
 
 env:
-  pkg_name: fcow_1.2-${{ github.run_number }}
+  pkg_name: fcow_1.2-${{github.run_number}}
 
 jobs:
   build:
@@ -14,23 +14,23 @@ jobs:
 
       - name: Create package structure
         run: |
-          mkdir ${{pkg_name}}
-          cd ${{pkg_name}}
+          mkdir ${{env.pkg_name}}
+          cd ${{env.pkg_name}}
           mkdir -p DEBIAN usr/local/bin usr/local/man/man6 usr/local/share/fcow
 
       - name: Copy stuff inside
         run: |
-          cp deb_control ${{pkg_name}}/DEBIAN/control
-          cp src/* ${{pkg_name}}/usr/local/bin/
-          chmod +x ${{pkg_name}}/usr/local/bin/*
-          cp share/* ${{pkg_name}}/usr/local/share/fcow/
-          cp man/* ${{pkg_name}}/usr/local/man/man6/
+          cp deb_control ${{env.pkg_name}}/DEBIAN/control
+          cp src/* ${{env.pkg_name}}/usr/local/bin/
+          chmod +x ${{env.pkg_name}}/usr/local/bin/*
+          cp share/* ${{env.pkg_name}}/usr/local/share/fcow/
+          cp man/* ${{env.pkg_name}}/usr/local/man/man6/
 
       - name: Create deb package
-        run: dpkg-deb -Zxz --build ${{pkg_name}}
+        run: dpkg-deb -Zxz --build ${{env.pkg_name}}
 
       - name: Upload deb as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{pkg_name}}.deb
-          path: ${{pkg_name}}.deb
+          name: ${{env.pkg_name}}.deb
+          path: ${{env.pkg_name}}.deb
